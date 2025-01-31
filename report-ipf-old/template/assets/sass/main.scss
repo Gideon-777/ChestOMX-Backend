@@ -1,0 +1,197 @@
+@import 'libs/vars';
+@import 'libs/functions';
+@import 'libs/mixins';
+@import 'libs/vendor';
+@import 'libs/breakpoints';
+@import 'libs/html-grid';
+@import 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400';
+
+/*
+	Stellar by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+*/
+
+// Breakpoints.
+
+@include breakpoints((
+        xlarge: (1281px, 1680px),
+        large: (981px, 1280px),
+        medium: (737px, 980px),
+        small: (481px, 736px),
+        xsmall: (361px, 480px),
+        xxsmall: (null, 360px)
+));
+
+// Mixins.
+
+@mixin color($p) {
+  @include color-typography($p);
+  @include color-box($p);
+  @include color-button($p);
+  @include color-form($p);
+  @include color-icon($p);
+  @include color-list($p);
+  @include color-section($p);
+  @include color-table($p);
+  @include color-spotlight($p);
+}
+
+// Base.
+
+@import 'base/reset';
+@import 'base/page';
+@import 'base/typography';
+
+// Component.
+
+@import 'components/row';
+@import 'components/box';
+@import 'components/button';
+@import 'components/form';
+@import 'components/icon';
+@import 'components/image';
+@import 'components/list';
+@import 'components/actions';
+@import 'components/icons';
+@import 'components/section';
+@import 'components/table';
+@import 'components/features';
+@import 'components/statistics';
+@import 'components/spotlight';
+
+// Layout.
+
+@import 'layout/header';
+@import 'layout/nav';
+@import 'layout/main';
+@import 'layout/footer';
+@import 'layout/wrapper';
+
+.k3d {
+  width: 100%;
+  position: relative;
+  height: 50vh;
+  font-size: 0.75em;
+  margin-bottom: 2em;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.infoMobile {
+  display: none;
+}
+
+@include breakpoint('<=medium') {
+  .infoMouse {
+    display: none;
+  }
+
+  .infoMobile {
+    display: block;
+    font-size: 0.8em;
+  }
+
+  .k3d {
+    margin-left: 20px;
+    margin-right: 20px;
+    width: auto;
+    margin-bottom: 0;
+
+    .colorMapLegend {
+      height: 20vw !important;
+      min-height: 20vw !important;
+      width: 20vw !important;
+      min-width: 20vw !important;
+    }
+  }
+}
+
+#z_slice {
+  width: 50%;
+  border: 1px solid black;
+  margin-top: 1em;
+}
+
+#lobe tr {
+  cursor: pointer;
+}
+
+.ica {
+  display: none;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 1em;
+
+  &.active {
+    display: block;
+  }
+}
+
+.network {
+  display: none;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 1em;
+
+  &.active {
+    display: block;
+  }
+}
+
+.submenu {
+  li {
+    display: inline-flex;
+  }
+
+  label {
+    margin-right: 1em;
+    white-space: nowrap;
+    align-items: center;
+    display: flex;
+    height: _size(element-height);
+  }
+}
+
+#main .k3d {
+  .button {
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+    z-index: 999;
+    background-color: _palette(border2);
+    user-select: none;
+
+    &.reset_view {
+      left: 0;
+    }
+
+    &.fullscreen {
+      right: 0;
+    }
+  }
+}
+
+#widgetsData, #k3dSource {
+  display: none;
+}
+
+@media print {
+
+  html, body {
+    font-size: 12pt;
+  }
+
+  #nav, #lungs, #lobes, #lobes3d, #ggo_consolidation, #infiltration {
+    display: none;
+  }
+
+  section.main, footer {
+    page-break-inside: avoid;
+  }
+
+}

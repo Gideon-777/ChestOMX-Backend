@@ -1,0 +1,37 @@
+{
+    "case": "3003",
+    "dicom": false,
+    "lobes3d": false,
+    "lobes": false,
+    "lungs": true,
+    "ipf": false,
+    "pdf": true,
+    "lungs_volumes": [
+        {
+            "Label": "Left lung",
+            "name": "Lungs_1",
+            "id": [
+                1
+            ],
+            "center": [
+                348,
+                290,
+                169
+            ],
+            "Volume": 1962.3954867019283
+        },
+        {
+            "Label": "Right lung",
+            "name": "Lungs_2",
+            "id": [
+                2
+            ],
+            "center": [
+                187,
+                325,
+                140
+            ],
+            "Volume": 1264.5050901273448
+        }
+    ]
+}

@@ -1,0 +1,588 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Lung project report by Phenomx.AI</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+  <link rel="stylesheet" href="assets/css/main.css"/>
+  <noscript>
+    <link rel="stylesheet" href="assets/css/noscript.css"/>
+  </noscript>
+</head>
+<body class="is-preload">
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+  <!-- Header -->
+  <header id="header" class="alt">
+    <span class="loading">Loading... Please wait</span>
+    <span class="logo"><img src="images/logo.svg" alt=""/></span>
+    <h2>"${case.capitalize()}" case</h2>
+    <p></p>
+  </header>
+
+  <!-- Nav -->
+  <nav id="nav">
+    <ul>
+      % if dicom:
+      <li><a href="#study">Study</a></li>
+      % endif
+      % if lungs:
+      <li><a href="#lungs">Lungs</a></li>
+      % endif
+      % if lobes3d:
+      <li><a href="#lobes3d">Lobes 3d</a></li>
+      % endif
+      % if lobes_ipf_3d:
+      <li><a href="#lobes_infiltration_3d">Lobes 3d</a></li>
+      % endif
+      % if lobes:
+      <li><a href="#lobes">Lobes regions</a></li>
+      % endif
+      % if ipf:
+      <li><a href="#IPF">IPF</a></li>
+      % endif
+      % if summary:
+      <li><a href="#summary">Summary</a></li>
+      % endif
+    </ul>
+  </nav>
+
+  <!-- Main -->
+  <div id="main">
+    % if dicom:
+    <section id="study" class="main">
+      <header class="major">
+        <h2>Study information</h2>
+      </header>
+      <div class="row">
+        <div class="col-6 col-12-medium">
+          <table>
+            <tbody>
+            <tr>
+              <td>Patient ID</td>
+              <td>${patientId}</td>
+            </tr>
+            <tr>
+              <td>Patient's Birth Date</td>
+              <td>${patientBirthdate}</td>
+            </tr>
+            <tr>
+              <td>Patient's Sex</td>
+              <td>${patientSex}</td>
+            </tr>
+            <tr>
+              <td>Patient's Age</td>
+              <td>${patientAge}</td>
+            </tr>
+            <tr>
+              <td>Study Description</td>
+              <td>${studyDescription}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-6 col-12-medium">
+          <table>
+            <tbody>
+            <tr>
+              <td>Institution Name</td>
+              <td>${institutionName}</td>
+            </tr>
+            <tr>
+              <td>Institution Address</td>
+              <td>${institutionAddress}</td>
+            </tr>
+            <tr>
+              <td>Station Name</td>
+              <td>${stationName}</td>
+            </tr>
+            <tr>
+              <td>Manufacturer</td>
+              <td>${manufacturer}</td>
+            </tr>
+
+            <tr>
+              <td>Slice Thickness</td>
+              <td>${sliceThickness}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    % endif
+
+    % if lungs:
+    <section id="lungs" class="main">
+      <header class="major special">
+        <h2>Lungs regions</h2>
+      </header>
+      <p class="col-6 infoMobile">Use one finger to change slices. Use two fingers close
+        togheter to change levels. Use pinch to zoom.</p>
+
+      <div class="row">
+        <ul class="actions special submenu" style="margin-bottom: 30px;">
+          <select name="masks" style="display: none">
+            <option value="1,2" selected="selected"></option>
+          </select>
+          <li>
+            <label for="lungsFilling">Mask filling:</label>
+            <select name="filling" id="lungsFilling">
+              <option value="0">No filling</option>
+              <option value="0.2">Low</option>
+              <option value="0.5" selected>Medium</option>
+              <option value="0.75">High</option>
+              <option value="1.0">Very high</option>
+            </select>
+          </li>
+          <li>
+            <label for="lungsView">View:</label>
+            <select name="view" id="lungsView">
+              <option value="all">All</option>
+              <option value="z">Axial</option>
+              <option value="x">Sagittal</option>
+              <option value="y">Coronal</option>
+              <option value="3d">3D</option>
+            </select>
+
+            <select name="masks" style="display: none">
+              <option value="2" selected="selected"></option>
+            </select>
+          </li>
+        </ul>
+      </div>
+
+      <div class="k3d" style="height: 70vh;">
+        <div class="reset_view button small">Reset view</div>
+        <div class="fullscreen button small">Fullscreen</div>
+      </div>
+
+      <p style="flex:1" class="infoMouse">
+        Left mouse button - change the level window. Scroll - changes slice.
+        Right mouse button - Panning. Pressed wheel - zoom or changes slices.
+      </p>
+    </section>
+    % endif
+
+    % if lobes3d:
+    <section id="lobes3d" class="main">
+      <div class="spotlight">
+        <div class="content">
+          <header class="major">
+            <h2>Lobes 3D</h2>
+          </header>
+          <div class="table-wrapper" style="font-size: 1.0em">
+            <table>
+              <thead>
+              <tr>
+                <th>Lobe</th>
+                <th>Volume</th>
+              </tr>
+              </thead>
+              <tbody>
+
+              % for v in lobes_volumes:
+              <tr data-name="${v['name']}">
+                <td>${v['Label']}</td>
+                <td>${'{:02.0f}'.format(v['Volume'])} cm<sup>3</sup></td>
+              </tr>
+              % endfor
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <span style="flex: 2; overflow: hidden">
+				    <div class="k3d" style="height: 70vh;">
+              <div class="reset_view button small">Reset view</div>
+              <div class="fullscreen button small">Fullscreen</div>
+            </div>
+        </span>
+      </div>
+      <p>
+        Auto-segmentation of lobe regions. Please hover your mouse cursor over a row in the
+        table to highlight the corresponding area.
+      </p>
+    </section>
+    % endif
+
+    % if lobes_infiltration_3d:
+    <section id="lobes_infiltration_3d" class="main">
+      <div class="spotlight">
+        <div class="content">
+          <header class="major">
+            <h2>Lobes 3D</h2>
+          </header>
+          <div class="table-wrapper" style="font-size: 1.0em">
+            <table>
+              <thead>
+              <tr>
+                <th>Lobe</th>
+                <th>Volume</th>
+              </tr>
+              </thead>
+              <tbody>
+
+              % for v in lobes_volumes:
+              <tr data-name="${v['name']}">
+                <td>${v['Label']}</td>
+                <td>${'{:02.0f}'.format(v['Volume'])} cm<sup>3</sup></td>
+              </tr>
+              % endfor
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <span style="flex: 2; overflow: hidden">
+				    <div class="k3d" style="height: 70vh;">
+              <div class="reset_view button small">Reset view</div>
+              <div class="fullscreen button small">Fullscreen</div>
+            </div>
+        </span>
+      </div>
+      <p>
+        Auto-segmentation of lobe regions. Please hover your mouse cursor over a row in the
+        table to highlight the corresponding area.
+      </p>
+    </section>
+    % endif
+
+    % if lobes:
+    <section id="lobes" class="main">
+      <header class="major special">
+        <h2>Lobe regions</h2>
+      </header>
+      <p class="col-6 infoMobile">Use one finger to change slices. Use two fingers close
+        togheter to change levels. Use pinch to zoom.</p>
+
+      <div class="row">
+        <ul class="actions special submenu" style="margin-bottom: 30px;">
+          <li>
+            <label for="IPF_regions">Lobes:</label>
+            <select name="masks" id="IPF_regions">
+              <option value="${','.join(map(str,[i for s in lobes_volumes for i in s['id']]))}">
+                All
+              </option>
+
+              % for s in lobes_volumes:
+              <option value="${','.join(map(str,s['id']))}"
+                      data-center="${','.join(map(str,s['center']))}">
+                ${s['Label']}
+              </option>
+              % endfor
+            </select>
+          </li>
+          <li>
+            <label for="lobesFilling">Mask filling:</label>
+            <select name="filling" id="lobesFilling">
+              <option value="0">No filling</option>
+              <option value="0.2">Low</option>
+              <option value="0.5" selected>Medium</option>
+              <option value="0.75">High</option>
+              <option value="1.0">Very high</option>
+            </select>
+          </li>
+          <li>
+            <label for="lobesView">View:</label>
+            <select name="view" id="lobesView">
+              <option value="all">All</option>
+              <option value="z">Axial</option>
+              <option value="x">Sagittal</option>
+              <option value="y">Coronal</option>
+              <option value="3d">3D</option>
+            </select>
+
+            <select name="masks" style="display: none">
+              <option value="2" selected="selected"></option>
+            </select>
+          </li>
+        </ul>
+      </div>
+
+      <div class="k3d" style="height: 70vh;">
+        <div class="reset_view button small">Reset view</div>
+        <div class="fullscreen button small">Fullscreen</div>
+      </div>
+
+      <p style="flex:1" class="infoMouse">
+        Left mouse button - change the level window. Scroll - changes slice.
+        Right mouse button - Panning. Pressed wheel - zoom or changes slices.
+      </p>
+    </section>
+    % endif
+
+    % if IPF:
+    <section id="IPF" class="main">
+      <header class="major special">
+        <h2>IPF</h2>
+      </header>
+      <p class="col-6 infoMobile">Use one finger to change slices. Use two fingers close
+        togheter to change levels. Use pinch to zoom.</p>
+      <div class="row">
+        <ul class="actions special submenu" style="margin-bottom: 30px;">
+          <li>
+            <label for="IPF_regions">IPF:</label>
+            <select name="masks" id="IPF_regions">
+              <option value="${','.join(map(str,[i for s in IPF_volumes for i in s['id']]))}">
+                All
+              </option>
+
+              % for s in IPF_volumes:
+              <option value="${','.join(map(str,s['id']))}"
+                      data-center="${','.join(map(str,s['center']))}">
+                ${s['Label']}
+              </option>
+              % endfor
+            </select>
+          </li>
+          <li>
+            <label for="IPFfilling">Mask filling:</label>
+            <select name="filling" id="IPFfilling">
+              <option value="0">No filling</option>
+              <option value="0.2">Low</option>
+              <option value="0.5" selected>Medium</option>
+              <option value="0.75">High</option>
+              <option value="1.0">Very high</option>
+            </select>
+          </li>
+          <li>
+            <label for="IPFView">View:</label>
+            <select name="view" id="IPFView">
+              <option value="all">All</option>
+              <option value="z">Axial</option>
+              <option value="x">Sagittal</option>
+              <option value="y">Coronal</option>
+              <option value="3d">3D</option>
+            </select>
+          </li>
+        </ul>
+      </div>
+
+      <div class="spotlight">
+        <span style="flex: 2.5; overflow: hidden">
+          <div class="k3d" style="height: 70vh;">
+          <div class="reset_view button small">Reset view</div>
+            <div class="fullscreen button small">Fullscreen</div>
+          </div>
+        </span>
+        <div class="content">
+
+          <div class="table-wrapper" style="font-size: 1.0em">
+            <table>
+              <thead>
+              <tr>
+                <th></th>
+                <th>Volume [cm<sup>3</sup>]</th>
+              </tr>
+              </thead>
+              <tbody>
+              % for v in IPF:
+              <tr class="left">
+                <td>${v['Label']}</td>
+                <td>${'{:02.2f}'.format(float(v['Volume']))}</td>
+              </tr>
+              % endfor
+              </tbody>
+            </table>
+          </div>
+          <p class="col-6 infoMouse">Left mouse button - change the level window. Scroll - changes slice.
+            Right mouse
+            button - Panning. Pressed wheel - zoom or changes slices.</p>
+        </div>
+      </div>
+
+    </section>
+    % endif
+
+    % if summary:
+    <section id="summary" class="main">
+      <header class="major">
+        <h2>Summary</h2>
+      </header>
+      <table class="alt">
+        <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          % for l in summary:
+          <th class="align-center">${l['Label']}</th>
+          % endfor
+        </tr>
+        </thead>
+
+        <tbody>
+        % for i in summary[0]['volumes'].keys():
+        <tr>
+          <td rowspan="2" style="vertical-align: middle;">${i}</td>
+          <td>Volume</td>
+
+          % for l in summary:
+          <td class="align-right">${'{:02.2f}'.format(l['volumes'][i])} cm<sup>3</sup></td>
+          % endfor
+        </tr>
+
+        <tr>
+          <td>Percentage</td>
+          % for l in summary:
+          <td class="align-right">${'{:02.2f}'.format(l['volumes'][i] / l['Volume'] * 100.0)} %</td>
+          % endfor
+        </tr>
+        % endfor
+        </tbody>
+      </table>
+    </section>
+    % endif
+
+  </div>
+
+  <!-- Footer -->
+  <footer id="footer">
+    <section>
+      <h2>About PhenoMx</h2>
+      <p>PhenoMx is transforming global healthcare delivery by leveraging the full potential of MRI.
+        By promoting
+        an upstream, quantitative imaging solution, PhenoMx technology can monitor and measure
+        organ-specific,
+        regional, or whole-body phenotypic changes to an individual's body, over time.</p>
+      <ul class="actions">
+        <li><a href="https://phenomx.co/" class="button">Learn More</a></li>
+      </ul>
+    </section>
+    <section>
+      <h2>Contact</h2>
+      <dl class="alt">
+        <dt>Korea</dt>
+        <dd>서울특별시 서초구 남부순환로350길 19-26 (양재동, 도담빌딩 4층) 070-4042-0810</dd>
+        <dt>USA</dt>
+        <dd>50 N Brockway St, Suite 3-3, Palatine, IL - 60067; Ph: +1-847-496-7582</dd>
+        <dt>Email</dt>
+        <dd><a href="mailto:info@phenomx.ai">info@phenomx.ai</a></dd>
+      </dl>
+    </section>
+    <p class="copyright">COPYRIGHT &copy; 2022 PHENOMX - ALL RIGHTS RESERVED.</p>
+  </footer>
+</div>
+<data id="widgetsData"><![CDATA[${json_widgets_data}]]></data>
+<data id="k3dSource"><![CDATA[${K3D_SOURCE}]]></data>
+
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.scrollex.min.js"></script>
+<script src="assets/js/jquery.scrolly.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+
+<script type="application/javascript">${FFLATE_JS}</script>
+<script type="application/javascript">${REQUIRE_JS}</script>
+<script src="scripts.js"></script>
+
+<script type="application/javascript">
+    window.status = 'ready_to_print';
+
+    function _base64ToArrayBuffer(base64) {
+        var binary_string = window.atob(base64);
+        var len = binary_string.length;
+        var bytes = new Uint8Array(len);
+        for (var i = 0; i < len; i++) {
+            bytes[i] = binary_string.charCodeAt(i);
+        }
+        return bytes;
+    }
+
+    var k3dData = document.getElementById('k3dSource').firstChild.nodeValue;
+    window.k3dCompressed = k3dData.substring(7, k3dData.length - 2);
+
+    var k3dSource = fflate.strFromU8(
+        fflate.unzlibSync(_base64ToArrayBuffer(window.k3dCompressed))
+    );
+    eval(k3dSource);
+
+    var data = document.getElementById('widgetsData').firstChild.nodeValue;
+    var widgetsData = JSON.parse(data.substring(7, data.length - 2));
+
+    require(['k3d_pro'], function (lib) {
+        var widgets = {};
+
+        Object.keys(widgetsData.plots).forEach(function (k) {
+            widgets[k] = initWidget(lib, widgetsData.plots[k], k, widgetsData.plots[k].type);
+        });
+
+        var keys = Object.keys(widgets);
+
+        // copy scan data to widgets
+        Promise.all(keys.map(function (k) {
+            return widgets[k]
+        })).then(function (results) {
+            var scan = null;
+
+            results.forEach(function (result) {
+                var json = result.getWorld().ObjectsListJson;
+
+                Object.keys(json).forEach(function (id) {
+                    if (json[id].name === 'scan_data') {
+                        scan = json[id].volume.data;
+                    }
+                });
+            });
+
+            if (scan === null) {
+                return;
+            }
+
+            // var label = null;
+
+            results.forEach(function (result) {
+                var json = result.getWorld().ObjectsListJson;
+
+                Object.keys(json).forEach(function (id) {
+                    if (json[id].name === 'scan') {
+                        json[id].volume.data.set(scan);
+                        result.reload(json[id], { volume: json[id].volume });
+                    }
+
+                  // lung specific
+                  // if (json[id].type === 'Label' && json[id].name === 'label') {
+                  //   label = json[id];
+                  //
+                  //   setTimeout(function () {
+                  //     label.visible = false;
+                  //     result.reload(label, {visible: label.visible});
+                  //   }, 500);
+                  //
+                  //   setInterval(function () {
+                  //     label.visible = false;
+                  //     result.reload(label, {visible: label.visible});
+                  //   }, 5000);
+                  //
+                  //   result.on(result.events.OBJECT_HOVERED, function (param) {
+                  //     var changes = {
+                  //       position: param.point.toArray(),
+                  //       text: "Infiltration",
+                  //       visible: true
+                  //     };
+                  //
+                  //     Object.keys(changes).forEach(function (key) {
+                  //       label[key] = changes[key];
+                  //     })
+                  //
+                  //     result.reload(label, changes);
+                  //   });
+                  // }
+                });
+            });
+
+            $("body").removeClass('is-preload');
+        });
+
+        $("body").removeClass('is-preload');
+        window.widgetsData = widgetsData;
+        window.widgets = widgets;
+    });
+</script>
+</body>
+</html>

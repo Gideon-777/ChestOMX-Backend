@@ -1,0 +1,45 @@
+version: "2.3"
+services:
+        web:
+                image: lungs_server_report
+                command: uwsgi --http 0.0.0.0:4002 --module app:app --http-timeout 600 --processes 4 --threads 4 --harakiri 600 --socket-timeout 600 --http-timeout 600
+                links:
+                        - redis_service
+                ports:
+                        - "4002:4002"
+                volumes:
+                    - ./config.yaml:/lungs/config.yaml
+                    - ../data/RESULTS_FOLDER:/lungs/RESULTS_FOLDER
+                    - ../data/uploads/:/lungs/uploads/
+                    - ../data/outputs/:/lungs/outputs/
+                    - ../data/niftis/:/lungs/niftis/
+                    - ../data/pngs/:/lungs/pngs/
+                    - ../data/objs/:/lungs/objs/
+                    - ../data/reports:/lungs/reports
+                    - ./templates:/lungs/templates 
+                    - ./config:/lungs/config
+                    - ./credentials:/lungs/credentials
+
+        rq_worker:
+                image: lungs_server_report
+                command: rq worker --with-scheduler --name lobe_worker2 --url redis://redis_service:6379/0
+                links:
+                        - redis_service
+                ports:
+                        - "6002:6002"
+                runtime: nvidia
+                volumes:
+                    - ./config.yaml:/lungs/config.yaml
+                    - ../data/RESULTS_FOLDER:/lungs/RESULTS_FOLDER
+                    - ../data/uploads/:/lungs/uploads/
+                    - ../data/outputs/:/lungs/outputs/
+                    - ../data/niftis/:/lungs/niftis/
+                    - ../data/pngs/:/lungs/pngs/
+                    - ../data/objs/:/lungs/objs/
+                    - ../data/reports:/lungs/reports
+                    - ./templates:/lungs/templates
+                    - ./config:/lungs/config
+                    - ./credentials:/lungs/credentials
+
+        redis_service:
+            image: redis

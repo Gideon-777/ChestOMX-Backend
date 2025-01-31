@@ -1,0 +1,142 @@
+port: 4002
+
+
+app_user: ChestOmx
+app_pass: Chest@123
+
+redis_host: redis_service
+
+device: cuda:0
+
+models:
+  - lungs
+  - lobes
+  - infiltration
+  - fibrosis_7labels
+  - ggo_consolidation
+  - fibrosis_4labels
+  - haa
+
+lungs_task: Task007_Lungs
+lobes_task: Task009_LobeN
+infiltration_task: Task108_Infiltration
+fibrosis_7labels_task: Task103_ILD
+ggo_consolidation_task: Task002_GGO
+fibrosis_4labels_task: Task105_IPF
+haa_task: Task104_opacities
+
+lungs_fold: 1
+lobes_fold: 0
+infiltration_fold: 0
+fibrosis_7labels_fold: 0
+ggo_consolidation_fold: 0
+fibrosis_4labels_fold: 0
+haa_fold: 0
+
+OUTPUTS_FOLDER: /lungs/outputs/
+UPLOADS_FOLDER: /lungs/uploads/
+RESULTS_FOLDER: /lungs/RESULTS_FOLDER/
+PNGS_FOLDER: /lungs/pngs
+NIFTIS_FOLDER: /lungs/niftis
+OBJS_FOLDER: /lungs/objs
+TEMPLATES_FOLDER: /lungs/templates
+REPORTS_FOLDER: /lungs/reports
+
+
+labels_colors: {
+    lobes: {
+        LUL: [128, 174, 128],
+        LLL: [241, 214, 145],
+        RUL: [177, 122, 101],
+        RML: [111, 184, 210],
+        RLL: [216, 101, 79],
+    },
+    lungs: {
+        LL: [125, 35, 0],
+        RL: [0, 0, 125],
+    },
+    infiltration: {
+        infiltration: [200, 0, 0]
+    },
+    fibrosis_7labels: {
+        Normal: [144, 238, 144],
+        GroundGlass: [192, 104, 88],
+        HoneyComb: [220, 245, 20],
+        Reticular: [78, 63, 0],
+        ModerateLAA: [128, 25, 255],
+        MildLAA: [230, 220, 70],
+        SevereLAA: [200, 200, 235],    
+    },
+    ggo_consolidation: {
+        GGO: [0, 0, 108],
+        Consolidation: [108, 0, 255],
+    },
+    fibrosis_4labels: {
+        Normal: [82, 0, 0],
+        Opacity: [0, 82, 0],
+        LAA: [0, 0, 82],
+    },
+    haa: {
+        Opacity: [ 125, 55, 62],
+    }
+}
+
+labels: {
+    lobes: {
+        LUL: 1,
+        LLL: 2,
+        RUL: 3,
+        RML: 4,
+        RLL: 5,
+    },
+    lungs: {
+        LL: 1,
+        RL: 2,
+    },
+    infiltration: {
+        infiltration: 1
+    },
+    fibrosis_7labels: {
+        Normal: 1,
+        GroundGlass: 2,
+        HoneyComb: 3,
+        Reticular: 4,
+        ModerateLAA: 5,
+        MildLAA: 6,
+        SevereLAA: 7,
+    },
+    ggo_consolidation: {
+        GGO: 1,
+        Consolidation: 2,
+    },
+    fibrosis_4labels: {
+        Normal: 1,
+        Opacity: 2,
+        LAA: 3,
+    },
+    haa: {
+        Opacity: 1,
+    }
+}
+
+ignore: {
+    fibrosis_7labels: [
+        # GroundGlass
+    ],
+    fibrosis_4labels: [
+        Opacity,
+        #        Normal
+    ]
+}
+
+
+
+smtp_user: 'hopkins.lungs321@outlook.com'
+smtp_password: 'hopkins@321'
+smtp_server: 'smtp.outlook.com'
+smtp_port: 587
+server_ip: '112.160.112.53'
+server_port: 4002
+client_ip: localhost
+client_port: 3000
+hello: hello

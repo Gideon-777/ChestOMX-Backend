@@ -1,0 +1,103 @@
+{
+    "case": "01062933_28c8bd711c4c45ed9b0d282587c2d621",
+    "dicom": false,
+    "lobes3d": true,
+    "lobes": true,
+    "lungs": true,
+    "ipf": false,
+    "lungs_volumes": [
+        {
+            "Label": "Lungs 1",
+            "name": "Lungs_1",
+            "id": [
+                1
+            ],
+            "center": [
+                367,
+                247,
+                62
+            ],
+            "Volume": 1646.9503767540211
+        },
+        {
+            "Label": "Lungs 2",
+            "name": "Lungs_2",
+            "id": [
+                2
+            ],
+            "center": [
+                162,
+                245,
+                64
+            ],
+            "Volume": 1861.539690737896
+        }
+    ],
+    "lobes_volumes": [
+        {
+            "Label": "Lobes 1",
+            "name": "Lobes_1",
+            "id": [
+                1
+            ],
+            "center": [
+                363,
+                216,
+                73
+            ],
+            "Volume": 983.9246208274549
+        },
+        {
+            "Label": "Lobes 2",
+            "name": "Lobes_2",
+            "id": [
+                2
+            ],
+            "center": [
+                374,
+                291,
+                45
+            ],
+            "Volume": 648.7046922132042
+        },
+        {
+            "Label": "Lobes 3",
+            "name": "Lobes_3",
+            "id": [
+                3
+            ],
+            "center": [
+                176,
+                240,
+                85
+            ],
+            "Volume": 722.2701250316001
+        },
+        {
+            "Label": "Lobes 4",
+            "name": "Lobes_4",
+            "id": [
+                4
+            ],
+            "center": [
+                163,
+                167,
+                53
+            ],
+            "Volume": 453.96896820174686
+        },
+        {
+            "Label": "Lobes 5",
+            "name": "Lobes_5",
+            "id": [
+                5
+            ],
+            "center": [
+                142,
+                288,
+                53
+            ],
+            "Volume": 675.412511128346
+        }
+    ]
+}
