@@ -131,11 +131,11 @@ ignore: {
 
 
 
-smtp_user: 'hopkins.lungs321@outlook.com'
-smtp_password: 'hopkins@321'
+smtp_user: 'X'
+smtp_password: 'X'
 smtp_server: 'smtp.outlook.com'
 smtp_port: 587
-server_ip: '112.160.112.53'
+server_ip: 'X'
 server_port: 4002
 client_ip: localhost
 client_port: 3000
